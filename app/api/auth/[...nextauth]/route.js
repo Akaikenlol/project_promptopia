@@ -1,7 +1,7 @@
 import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
-import { connectToDB } from "../utils/database";
-import User from "../models/user";
+import { connectToDB } from "@/utils/database";
+import User from "@/models/user";
 
 // console.log({
 // 	clientId: process.env.GOOGLE_ID,
@@ -15,29 +15,40 @@ const handler = NextAuth({
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 		}),
 	],
-	async session({ session }) {},
-	async signIn({ profile }) {
-		try {
-			await connectToDB();
-
-			//check if a user already exist
-			const userExists = await User.finOne({
-				email: profile.email,
+	callback: {
+		async session({ session }) {
+			const sessionUser = await User.findOne({
+				email: session.user.email,
 			});
 
-			// if not, create a new user
-			if (!userExists) {
-				await User.create({
+			session.user.id = sessionUser._id.toString();
+
+			return session;
+		},
+		async signIn({ profile }) {
+			try {
+				await connectToDB();
+
+				//check if a user already exist
+				const userExists = await User.finOne({
 					email: profile.email,
-					username: profile.name.replace(" ", "").toLowerCase(),
-					image: profile.image,
 				});
+
+				// if not, create a new user
+				if (!userExists) {
+					await User.create({
+						email: profile.email,
+						// username: profile.name.replace(" ", "").toLowerCase(),
+						username: profile.name.replace(/\s+/g, "").toLowerCase(),
+						image: profile.image,
+					});
+				}
+				return true;
+			} catch (error) {
+				console.log("Error checking if user exists: ", error);
+				return false;
 			}
-			return true;
-		} catch (error) {
-			console.log(error);
-			return false;
-		}
+		},
 	},
 });
 
