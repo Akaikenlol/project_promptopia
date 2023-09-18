@@ -14,7 +14,7 @@ export const connectToDB = async () => {
 		await mongoose.connect(process.env.MONGODB_URI, {
 			dbName: "share_prompt",
 			useNewUrlParser: true,
-			useUndefinedTopology: true,
+			useUnifiedTopology: true,
 		});
 
 		isConnected = true;
@@ -24,5 +24,6 @@ export const connectToDB = async () => {
 	}
 };
 
+// export { connectToDB };
 //mongodb password : ggHnVZJngmcTL5xD
 //username: akaiken5656

@@ -30,7 +30,7 @@ const handler = NextAuth({
 				await connectToDB();
 
 				//check if a user already exist
-				const userExists = await User.finOne({
+				const userExists = await User.findOne({
 					email: profile.email,
 				});
 
