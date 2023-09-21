@@ -18,12 +18,12 @@ export const connectToDB = async () => {
 		});
 
 		isConnected = true;
+
 		console.log("MongoDB is connected");
 	} catch (error) {
 		console.log(error);
 	}
 };
 
-// export { connectToDB };
 //mongodb password : ggHnVZJngmcTL5xD
 //username: akaiken5656
