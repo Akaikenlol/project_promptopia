@@ -8,6 +8,8 @@ console.log({
 	clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 });
 
+console.log({});
+
 const handler = NextAuth({
 	providers: [
 		GoogleProvider({
