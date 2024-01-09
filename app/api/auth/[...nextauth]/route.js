@@ -3,12 +3,12 @@ import GoogleProvider from "next-auth/providers/google";
 import { connectToDB } from "@/utils/database";
 import User from "@/models/user";
 
-console.log({
-	clientId: process.env.GOOGLE_ID,
-	clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-});
+// console.log({
+// 	clientId: process.env.GOOGLE_ID,
+// 	clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+// });
 
-console.log({});
+// console.log({});
 
 const handler = NextAuth({
 	providers: [
@@ -35,13 +35,12 @@ const handler = NextAuth({
 				const userExists = await User.findOne({
 					email: profile.email,
 				});
-				console.log("User account information:", profile);
+				// console.log("User account information:", profile);
 				// if not, create a new user
 				if (!userExists) {
 					await User.create({
 						email: profile.email,
 						username: profile.name.replace(" ", "").toLowerCase(),
-						// username: profile.name.replace(/\s+/g, "").toLowerCase(),
 						image: profile.picture,
 					});
 				}

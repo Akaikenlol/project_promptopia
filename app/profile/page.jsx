@@ -18,11 +18,11 @@ const MyProfile = () => {
 
 			setPosts(data);
 		};
-		if (session?.user?.id) fetchPosts();
+		if (session?.user.id) fetchPosts();
 	}, []);
 
 	const handleEdit = () => {
-		router = push(`/update-prompt?id=${post._id}`);
+		router.push(`/update-prompt?id=${post._id}`);
 	};
 
 	const handleDelete = async (post) => {
